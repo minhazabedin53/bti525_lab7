@@ -1,0 +1,58 @@
+{
+  "name": "fragments-service",
+  "version": "1.0.0",
+  "description": "Fragments microservice for Seneca BTI525",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint src",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
+    "coverage": "cross-env NODE_ENV=test node --experimental-vm-modules ./node_modules/jest/bin/jest.js --coverage",
+    "dev": "node src/server.js",
+    "start": "node src/server.js"
+  },
+  "keywords": [],
+  "author": "Minhaz Abedin mabedin1@myseneca.ca",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/minhazabedin53/fragments-service.git"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "http-auth": "^4.2.1",
+    "js-yaml": "^4.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.2.0",
+    "markdown-it": "^14.1.0",
+    "memory-cache": "^0.2.0",
+    "mime-types": "^3.0.1",
+    "morgan": "^1.10.1",
+    "multer": "^2.0.2",
+    "nanoid": "^5.1.6",
+    "passport": "^0.7.0",
+    "passport-http": "^0.3.0",
+    "passport-http-bearer": "^1.0.1",
+    "pino": "^10.0.0",
+    "pino-http": "^11.0.0",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
+    "sharp": "^0.34.4",
+    "uuid": "^13.0.0",
+    "winston": "^3.18.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.38.0",
+    "globals": "^16.4.0",
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.10",
+    "pino-pretty": "^13.1.1",
+    "supertest": "^7.1.4"
+  }
+}
