@@ -34,26 +34,22 @@ router.post("/", rawBody(), async (req, res) => {
   try {
     if (!Buffer.isBuffer(req.body)) {
       req.log?.warn("Unsupported or missing body");
-      return res
-        .status(415)
-        .json({
-          status: "error",
-          error: {
-            code: 415,
-            message: "unsupported Content-Type or empty body",
-          },
-        });
+      return res.status(415).json({
+        status: "error",
+        error: {
+          code: 415,
+          message: "unsupported Content-Type or empty body",
+        },
+      });
     }
 
     const { type } = contentType.parse(req);
     if (!Fragment.isSupportedType(type)) {
       req.log?.warn({ type }, "Unsupported Content-Type");
-      return res
-        .status(415)
-        .json({
-          status: "error",
-          error: { code: 415, message: `unsupported Content-Type: ${type}` },
-        });
+      return res.status(415).json({
+        status: "error",
+        error: { code: 415, message: `unsupported Content-Type: ${type}` },
+      });
     }
 
     const fragment = new Fragment({
@@ -74,12 +70,10 @@ router.post("/", rawBody(), async (req, res) => {
     return res.status(201).json({ status: "ok", fragment: fragment.toJSON() });
   } catch (err) {
     req.log?.error({ err }, "POST /fragments failed");
-    return res
-      .status(500)
-      .json({
-        status: "error",
-        error: { code: 500, message: "internal server error" },
-      });
+    return res.status(500).json({
+      status: "error",
+      error: { code: 500, message: "internal server error" },
+    });
   }
 });
 
@@ -101,12 +95,10 @@ router.get("/", async (req, res) => {
     return res.status(200).json({ status: "ok", fragments: ids });
   } catch (err) {
     req.log?.error({ err }, "GET /fragments failed");
-    return res
-      .status(500)
-      .json({
-        status: "error",
-        error: { code: 500, message: "internal server error" },
-      });
+    return res.status(500).json({
+      status: "error",
+      error: { code: 500, message: "internal server error" },
+    });
   }
 });
 
@@ -118,32 +110,26 @@ router.get("/:id", async (req, res) => {
   try {
     const frag = await Fragment.byId(req.user.ownerId, req.params.id);
     if (!frag) {
-      return res
-        .status(404)
-        .json({
-          status: "error",
-          error: { code: 404, message: "fragment not found" },
-        });
+      return res.status(404).json({
+        status: "error",
+        error: { code: 404, message: "fragment not found" },
+      });
     }
     const data = await frag.getData();
     if (!data) {
-      return res
-        .status(404)
-        .json({
-          status: "error",
-          error: { code: 404, message: "fragment data missing" },
-        });
+      return res.status(404).json({
+        status: "error",
+        error: { code: 404, message: "fragment data missing" },
+      });
     }
     res.set("Content-Type", frag.type);
     return res.status(200).send(data);
   } catch (err) {
     req.log?.error({ err }, "GET /fragments/:id failed");
-    return res
-      .status(500)
-      .json({
-        status: "error",
-        error: { code: 500, message: "internal server error" },
-      });
+    return res.status(500).json({
+      status: "error",
+      error: { code: 500, message: "internal server error" },
+    });
   }
 });
 
@@ -155,22 +141,18 @@ router.get("/:id/info", async (req, res) => {
   try {
     const frag = await Fragment.byId(req.user.ownerId, req.params.id);
     if (!frag) {
-      return res
-        .status(404)
-        .json({
-          status: "error",
-          error: { code: 404, message: "fragment not found" },
-        });
+      return res.status(404).json({
+        status: "error",
+        error: { code: 404, message: "fragment not found" },
+      });
     }
     return res.status(200).json({ status: "ok", fragment: frag.toJSON() });
   } catch (err) {
     req.log?.error({ err }, "GET /fragments/:id/info failed");
-    return res
-      .status(500)
-      .json({
-        status: "error",
-        error: { code: 500, message: "internal server error" },
-      });
+    return res.status(500).json({
+      status: "error",
+      error: { code: 500, message: "internal server error" },
+    });
   }
 });
 
@@ -182,20 +164,16 @@ router.put("/:id", rawBody(), async (req, res) => {
   try {
     const frag = await Fragment.byId(req.user.ownerId, req.params.id);
     if (!frag) {
-      return res
-        .status(404)
-        .json({
-          status: "error",
-          error: { code: 404, message: "fragment not found" },
-        });
+      return res.status(404).json({
+        status: "error",
+        error: { code: 404, message: "fragment not found" },
+      });
     }
     if (!Buffer.isBuffer(req.body)) {
-      return res
-        .status(400)
-        .json({
-          status: "error",
-          error: { code: 400, message: "missing body" },
-        });
+      return res.status(400).json({
+        status: "error",
+        error: { code: 400, message: "missing body" },
+      });
     }
 
     const { type } = contentType.parse(req);
@@ -217,12 +195,10 @@ router.put("/:id", rawBody(), async (req, res) => {
     return res.status(200).json({ status: "ok", fragment: frag.toJSON() });
   } catch (err) {
     req.log?.error({ err }, "PUT /fragments/:id failed");
-    return res
-      .status(500)
-      .json({
-        status: "error",
-        error: { code: 500, message: "internal server error" },
-      });
+    return res.status(500).json({
+      status: "error",
+      error: { code: 500, message: "internal server error" },
+    });
   }
 });
 
@@ -233,24 +209,20 @@ router.delete("/:id", async (req, res) => {
   try {
     const frag = await Fragment.byId(req.user.ownerId, req.params.id);
     if (!frag) {
-      return res
-        .status(404)
-        .json({
-          status: "error",
-          error: { code: 404, message: "fragment not found" },
-        });
+      return res.status(404).json({
+        status: "error",
+        error: { code: 404, message: "fragment not found" },
+      });
     }
     await frag.delete();
     req.log?.info({ id: frag.id }, "Fragment deleted");
     return res.status(200).json({ status: "ok" });
   } catch (err) {
     req.log?.error({ err }, "DELETE /fragments/:id failed");
-    return res
-      .status(500)
-      .json({
-        status: "error",
-        error: { code: 500, message: "internal server error" },
-      });
+    return res.status(500).json({
+      status: "error",
+      error: { code: 500, message: "internal server error" },
+    });
   }
 });
 

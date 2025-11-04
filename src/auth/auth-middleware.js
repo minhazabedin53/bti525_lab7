@@ -27,12 +27,10 @@ export default function authorize(strategyName) {
           } else if (strategyName === "bearer") {
             res.set("WWW-Authenticate", "Bearer");
           }
-          return res
-            .status(401)
-            .json({
-              status: "error",
-              error: { code: 401, message: "unauthorized" },
-            });
+          return res.status(401).json({
+            status: "error",
+            error: { code: 401, message: "unauthorized" },
+          });
         }
 
         const email = (user.email || user.sub || "").toLowerCase();
