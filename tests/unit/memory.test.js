@@ -8,30 +8,30 @@ import {
   listFragmentIds,
   listFragments,
   deleteFragment,
-} from '../../src/model/data/index.js';
+} from "../../src/model/data/index.js";
 
-const owner = 'memuser';
+const owner = "memuser";
 
-describe('memory strategy (data/index.js)', () => {
-  test('write/read path works end-to-end', async () => {
-    const id = 'z1';
+describe("memory strategy (data/index.js)", () => {
+  test("write/read path works end-to-end", async () => {
+    const id = "z1";
     const now = new Date().toISOString();
     await writeFragment(owner, {
       id,
       ownerId: owner,
-      type: 'text/plain',
+      type: "text/plain",
       size: 0,
       created: now,
       updated: now,
     });
-    await writeFragmentData(owner, id, 'ok');
+    await writeFragmentData(owner, id, "ok");
 
     const meta = await readFragment(owner, id);
     expect(meta).toBeTruthy();
     expect(meta.id).toBe(id);
 
     const data = await readFragmentData(owner, id);
-    expect(data.toString()).toBe('ok');
+    expect(data.toString()).toBe("ok");
 
     const ids = await listFragmentIds(owner);
     expect(ids).toContain(id);

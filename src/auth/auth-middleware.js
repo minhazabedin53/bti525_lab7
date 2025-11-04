@@ -1,8 +1,11 @@
-import passport from 'passport';
-import crypto from 'crypto';
+import passport from "passport";
+import crypto from "crypto";
 
 function sha256(email) {
-  return crypto.createHash('sha256').update(String(email).toLowerCase()).digest('hex');
+  return crypto
+    .createHash("sha256")
+    .update(String(email).toLowerCase())
+    .digest("hex");
 }
 
 /**
@@ -12,23 +15,30 @@ function sha256(email) {
  */
 export default function authorize(strategyName) {
   return (req, res, next) => {
-    passport.authenticate(strategyName, { session: false }, (err, user, _info) => {
-      if (err) return next(err);
+    passport.authenticate(
+      strategyName,
+      { session: false },
+      (err, user, _info) => {
+        if (err) return next(err);
 
-      if (!user) {
-        if (strategyName === 'basic') {
-          res.set('WWW-Authenticate', 'Basic realm="fragments"');
-        } else if (strategyName === 'bearer') {
-          res.set('WWW-Authenticate', 'Bearer');
+        if (!user) {
+          if (strategyName === "basic") {
+            res.set("WWW-Authenticate", 'Basic realm="fragments"');
+          } else if (strategyName === "bearer") {
+            res.set("WWW-Authenticate", "Bearer");
+          }
+          return res
+            .status(401)
+            .json({
+              status: "error",
+              error: { code: 401, message: "unauthorized" },
+            });
         }
-        return res
-          .status(401)
-          .json({ status: 'error', error: { code: 401, message: 'unauthorized' } });
-      }
 
-      const email = (user.email || user.sub || '').toLowerCase();
-      req.user = { ownerId: sha256(email) };
-      return next();
-    })(req, res, next);
+        const email = (user.email || user.sub || "").toLowerCase();
+        req.user = { ownerId: sha256(email) };
+        return next();
+      },
+    )(req, res, next);
   };
 }

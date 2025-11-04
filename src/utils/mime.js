@@ -1,21 +1,21 @@
-import { mediaTypeOf } from '../model/types.js';
+import { mediaTypeOf } from "../model/types.js";
 
 /** Parse a Content-Type header into { mediaType, charset } */
-export function parseContentType(ct = '') {
+export function parseContentType(ct = "") {
   const raw = String(ct).trim();
-  const [typePart, ...params] = raw.split(';');
+  const [typePart, ...params] = raw.split(";");
   const mediaType = typePart.trim().toLowerCase();
   const paramMap = new Map();
   for (const p of params) {
-    const [k, v] = p.split('=');
+    const [k, v] = p.split("=");
     if (k && v) paramMap.set(k.trim().toLowerCase(), v.trim());
   }
-  const charset = paramMap.get('charset');
+  const charset = paramMap.get("charset");
   return { mediaType, charset, raw };
 }
 
 /** Normalize a Content-Type string (lowercase, trimmed). Keeps charset. */
-export function normalizeContentType(ct = '') {
+export function normalizeContentType(ct = "") {
   const { mediaType, charset } = parseContentType(ct);
   return charset ? `${mediaType}; charset=${charset}` : mediaType;
 }

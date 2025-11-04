@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from "crypto";
 import {
   writeFragment,
   readFragment,
@@ -7,17 +7,17 @@ import {
   listFragmentIds,
   listFragments,
   deleteFragment,
-} from './data/index.js';
+} from "./data/index.js";
 
-import { mediaTypeOf, isSupportedType } from './types.js';
+import { mediaTypeOf, isSupportedType } from "./types.js";
 
 /**
  * Represents a single data fragment (metadata + data).
  */
 export default class Fragment {
   constructor({ id, ownerId, type, size = 0, created, updated, data } = {}) {
-    if (!ownerId) throw new Error('ownerId is required');
-    if (!type) throw new Error('type is required');
+    if (!ownerId) throw new Error("ownerId is required");
+    if (!type) throw new Error("type is required");
     if (!isSupportedType(type)) throw new Error(`unsupported type: ${type}`);
 
     this.id = id || crypto.randomUUID();

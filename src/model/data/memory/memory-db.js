@@ -13,7 +13,8 @@ const key = (ownerId, id) => `${ownerId}:${id}`;
  * @returns {Promise<object>} stored fragment metadata
  */
 export async function writeFragment(ownerId, fragment) {
-  if (!ownerId || !fragment?.id) throw new Error('writeFragment requires ownerId and fragment.id');
+  if (!ownerId || !fragment?.id)
+    throw new Error("writeFragment requires ownerId and fragment.id");
   const k = key(ownerId, fragment.id);
   metaStore.set(k, { ...fragment });
   return metaStore.get(k);
@@ -39,8 +40,7 @@ export async function readFragment(ownerId, id) {
  */
 export async function writeFragmentData(ownerId, id, buffer) {
   const k = key(ownerId, id);
-  const data =
-    Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer || '');
+  const data = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer || "");
   dataStore.set(k, data);
   return data.byteLength;
 }
@@ -55,7 +55,6 @@ export async function readFragmentData(ownerId, id) {
   const k = key(ownerId, id);
   return dataStore.get(k) ?? null;
 }
-
 
 /**
  * List fragment IDs for an owner.

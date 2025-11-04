@@ -1,12 +1,12 @@
 module.exports = {
-  testEnvironment: 'node',
-  roots: ['<rootDir>/tests'],
+  testEnvironment: "node",
+  roots: ["<rootDir>/tests"],
   verbose: true,
   transform: {},
-  moduleFileExtensions: ['js', 'json'],
+  moduleFileExtensions: ["js", "json"],
   collectCoverageFrom: [
-    'src/**/*.js',
-    '!src/**/index.js',
-    '!src/**/__tests__/**',
+    "src/**/*.js",
+    "!src/**/index.js",
+    "!src/**/__tests__/**",
   ],
 };
